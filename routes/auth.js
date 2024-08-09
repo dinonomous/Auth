@@ -36,9 +36,8 @@ router.post("/login", (req, res) => {
       const payload = { userName: user.userName, id: user._id };
       const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1d' });
 
-
-      res.cookie('token', token, { httpOnly: true });
-      res.status(200).json({ success: true, message: 'Login successful' });
+      // Send JWT in response body instead of setting a cookie
+      res.status(200).json({ success: true, message: 'Login successful', token });
     })
     .catch(err => {
       // Use a 500 status code for "Internal Server Error"
